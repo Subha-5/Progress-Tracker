@@ -1,0 +1,74 @@
+{
+  "data": {
+    "username": "",
+    "email": "",
+    "password": "",
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "description": "Task 1 details",
+        "total": 12,
+        "progress": 0,
+        "rating": 0.5,
+        "status": "planning",
+        "isFavourite": false,
+        "revisited": 1
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "description": "Task 2 details",
+        "total": 13,
+        "progress": 2,
+        "rating": 0.7,
+        "status": "current",
+        "isFavourite": true,
+        "revisited": 3
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "description": "Task 3 details",
+        "total": 12,
+        "progress": 12,
+        "rating": 0.2,
+        "status": "completed",
+        "revisited": 4
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "description": "Task 4 details",
+        "total": 12,
+        "progress": 4,
+        "rating": 0.3,
+        "status": "on-hold",
+        "isFavourite": false,
+        "revisited": 1
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "description": "Task 5 details",
+        "total": 13,
+        "progress": 4,
+        "rating": 0.3,
+        "status": "dropped",
+        "isFavourite": false,
+        "revisited": 0
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "description": "Task 6 details",
+        "total": 26,
+        "progress": 4,
+        "rating": 0.9,
+        "status": "current",
+        "isFavourite": true,
+        "revisited": 0
+      }
+    ]
+  }
+}
