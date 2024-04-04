@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Head from "next/head";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Progress Tracker",
   description: "Track progress of your work ",
-  category: "utility"
+  category: "utility",
 };
 
 export default function RootLayout({
@@ -17,7 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <body className={inter.className}>
+        <main>{children}</main>
+        <Toaster/>
+      </body>
     </html>
   );
 }

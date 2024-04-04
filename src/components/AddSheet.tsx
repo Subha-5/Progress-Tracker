@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Categories } from "@/components/Categories";
+import { useToast } from "@/components/ui/use-toast"
+
 import {
   Sheet,
   SheetClose,
@@ -16,14 +18,22 @@ import {
 import { Checkbox } from "./ui/checkbox";
 
 export function AddSheet() {
+  const { toast } = useToast()
   return (
     <Sheet>
       <SheetTrigger asChild className="w-min px-6 py-2">
-        <Button variant={"outline"} className="bg-white text-black" title="Press to Add a task or job">
+        <Button
+          variant={"outline"}
+          className="bg-white text-black"
+          title="Press to Add a task or job"
+        >
           Add Task
         </Button>
       </SheetTrigger>
-      <SheetContent side={"top"} className="invert h-full md:h-min">
+      <SheetContent
+        side={"top"}
+        className="invert h-full md:h-min  overflow-x-auto overflow-y-auto max-h-screen"
+      >
         <SheetHeader>
           <SheetTitle className="text-center">Add a Task</SheetTitle>
           <SheetDescription className="text-center">
@@ -35,13 +45,32 @@ export function AddSheet() {
             <Label htmlFor="name" className="md:text-right">
               Task Name
             </Label>
-            <Input id="name" className="col-span-2" />
+            <Input
+              id="name"
+              className="col-span-2"
+              placeholder="Assign a name to your task"
+              required
+            />
+          </div>
+          <div className="grid md:grid-cols-4 items-center gap-4">
+            <Label htmlFor="task-type" className="md:text-right">
+              Task Type
+            </Label>
+            <Input
+              id="task-type"
+              className="col-span-2"
+              placeholder="Type of Task like episodes, lectures, chapter, etc."
+            />
           </div>
           <div className="grid md:grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="md:text-right">
               Task Description
             </Label>
-            <Textarea id="description" className="col-span-2" />
+            <Textarea
+              id="description"
+              className="col-span-2"
+              placeholder="Details and description about your task"
+            />
           </div>
           <div className="grid md:grid-cols-4 items-center gap-4">
             <Label htmlFor="total-units" className="md:text-right">
@@ -55,6 +84,7 @@ export function AddSheet() {
               step={1}
               defaultValue={1}
               className="col-span-1"
+              required
             />
           </div>
           <div className="grid md:grid-cols-4 items-center gap-4">
@@ -69,11 +99,12 @@ export function AddSheet() {
               step={1}
               defaultValue={0}
               className="col-span-1"
+              required
             />
           </div>
           <div className="grid md:grid-cols-4 items-center gap-4">
             <Label htmlFor="rating" className="md:text-right">
-              Rating
+              Rating (out of 10)
             </Label>
             <Input
               id="rating"
@@ -107,11 +138,21 @@ export function AddSheet() {
               className=" w-min"
               title="Close Add Task Panel"
             >
-              Cancel / Close
+              Cancel
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button type="submit" className="w-full md:w-2/5" title="Add Task">
+            <Button
+              type="submit"
+              className="w-full md:w-2/5"
+              title="Add Task"
+              onClick={() => {
+                toast({
+                  title: "Task Added Successfully",
+                  description: "",
+                });
+              }}
+            >
               Save changes
             </Button>
           </SheetClose>

@@ -3,10 +3,13 @@
     "username": "",
     "email": "",
     "password": "",
+    "isVerified": false,
+    "isAdmin": false,
     "tasks": [
       {
         "id": 1,
         "name": "Task 1",
+        "type": "Episodes",
         "description": "Task 1 details",
         "total": 12,
         "progress": 0,
@@ -18,6 +21,7 @@
       {
         "id": 2,
         "name": "Task 2",
+        "type": "Lectures",
         "description": "Task 2 details",
         "total": 13,
         "progress": 2,
@@ -29,6 +33,7 @@
       {
         "id": 3,
         "name": "Task 3",
+        "type": "Chapters",
         "description": "Task 3 details",
         "total": 12,
         "progress": 12,
@@ -39,6 +44,7 @@
       {
         "id": 4,
         "name": "Task 4",
+        "type": "Chores",
         "description": "Task 4 details",
         "total": 12,
         "progress": 4,
@@ -50,6 +56,7 @@
       {
         "id": 5,
         "name": "Task 5",
+        "type": "Jobs",
         "description": "Task 5 details",
         "total": 13,
         "progress": 4,
@@ -61,6 +68,7 @@
       {
         "id": 6,
         "name": "Task 6",
+        "type": "Lectures",
         "description": "Task 6 details",
         "total": 26,
         "progress": 4,
