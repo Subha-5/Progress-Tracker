@@ -10,8 +10,9 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditDialog as EditTask } from "@/components/EditDialog";
+import axios from "axios";
 
 function Item({
   id,
@@ -27,26 +28,48 @@ function Item({
 }: ItemProps) {
   const [progressBar, setProgressBar] = useState((progress / total) * 100);
   const [currentProgress, setCurrentProgress] = useState(progress);
-  const handleAddAction = (id: number) => {
-    if (currentProgress >= 0 && currentProgress <= total) {
-      setCurrentProgress((prevProgress) => prevProgress + 1);
-      setProgressBar((prevProgress) => {
-        return prevProgress + (1 / total) * 100;
-      });
+  const [addBtnDisabled, setAddBtnDisabled] = useState(false);
+
+  const handleAddAction = async (id: string) => {
+    setAddBtnDisabled(true);
+    try {
+      const response = await axios.patch(`/api/task/addprogress/${id}`);
+      if (currentProgress < total && currentProgress >= 0) {
+        setCurrentProgress((prevProgress) => prevProgress + 1);
+        setProgressBar((prevProgress) => {
+          return prevProgress + (1 / total) * 100;
+        });
+      } else if (currentProgress === total) {
+        setAddBtnDisabled(true)
+        console.log('to be completed');
+        setProgressBar(100)
+        await axios.put(`/api/task/edit/${id}`, {"status": "completed"})
+        console.log('already completed');
+      }
+    } catch (error) {
+      console.log("Could not connect to application to complete action");
     }
+    setAddBtnDisabled(false);
   };
+
+  useEffect(() => {}, []);
+
   return (
     <Card className="bg-gray-900 text-white border border-gray-500">
       <CardHeader className="flex flex-row justify-between py-2 md:pt-6">
-        <div>
+        <div className="break-normal">
           <CardTitle className="font-normal text-lg md:text-2xl md:font-semibold">
             {title}{" "}
           </CardTitle>
           <CardDescription>
-            {desc} <span className="text-yellow-500 text-lg">&#9733;</span>
+            {desc}{" "}
+            <span className="text-yellow-500 text-lg p-0 whitespace-nowrap leading-none">
+              {/* &#9733; */}
+            </span>
           </CardDescription>
         </div>
         <EditTask
+          id={id}
           name={title}
           description={desc}
           isMarkedFavourite={isFavourite}
@@ -73,7 +96,7 @@ function Item({
           </p>
         </div>
         <Button
-          disabled={footer == "completed" || currentProgress >= total}
+          disabled={addBtnDisabled || currentProgress >= total}
           onClick={() => {
             handleAddAction(id);
           }}
@@ -102,7 +125,7 @@ function Item({
 }
 
 export type ItemProps = {
-  id: number;
+  id: string;
   title: string;
   category: string;
   desc: string;

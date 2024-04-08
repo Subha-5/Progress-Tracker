@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   try {
     const userId = await getDataFromToken(request);
 
-    console.log(userId);
+    // console.log(userId);
 
     const userData = await User.aggregate(
       [

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+
 import {
   Dialog,
   DialogClose,
@@ -9,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,13 +22,26 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Categories } from "@/components/Categories";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 type EditDialogProps = {
+  id: string;
   name: string;
   description: string;
   totalUnits: number;
@@ -34,10 +49,11 @@ type EditDialogProps = {
   ratingValue: number;
   status: string;
   isMarkedFavourite: boolean;
-  category: string
+  category: string;
 };
 
 export function EditDialog({
+  id,
   name,
   description,
   totalUnits,
@@ -45,8 +61,39 @@ export function EditDialog({
   ratingValue,
   status,
   isMarkedFavourite,
-  category
+  category,
 }: EditDialogProps) {
+  const [editTask, setEditTask] = useState({
+    name: name,
+    type: category,
+    description: description,
+    total: totalUnits,
+    progress: unitsCovered,
+    rating: ratingValue * 10,
+    status: status,
+    isFavourite: isMarkedFavourite,
+    revisited: 0
+  });
+
+  const handleEditTask = async (id: string) => {
+    console.log("UPDATED TASK: ", editTask);
+    try {
+      const response = await axios.put(`/api/task/edit/${id}`, editTask);
+      console.log(response.data); 
+    } catch (error) {
+      console.log("Failed to Edit existing Task !!!");
+    }
+  };
+
+  const handleDeleteTask = async (id: string) => {
+    try {
+      const response = await axios.delete(`/api/task/delete/${id}`);
+      console.log(response.data); 
+    } catch (error) {
+      console.log("Failed to Delete existing Task !!!");
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -74,7 +121,10 @@ export function EditDialog({
               id="name"
               className="col-span-2"
               autoComplete="off"
-              value={name}
+              value={editTask.name}
+              onChange={(e) =>
+                setEditTask({ ...editTask, name: e.target.value })
+              }
             />
           </div>
           <div className="grid md:grid-cols-3 items-center gap-4">
@@ -85,7 +135,10 @@ export function EditDialog({
               id="name"
               className="col-span-2"
               autoComplete="off"
-              value={category}
+              value={editTask.type}
+              onChange={(e) =>
+                setEditTask({ ...editTask, type: e.target.value })
+              }
             />
           </div>
           <div className="grid md:grid-cols-3 items-center gap-4">
@@ -95,7 +148,10 @@ export function EditDialog({
             <Textarea
               id="description"
               className="col-span-2"
-              value={description}
+              value={editTask.description}
+              onChange={(e) =>
+                setEditTask({ ...editTask, description: e.target.value })
+              }
             />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 ">
@@ -110,8 +166,11 @@ export function EditDialog({
                 min={0}
                 step={1}
                 className="col-span-1"
-                defaultValue={0}
-                value={totalUnits}
+                // defaultValue={0}
+                value={editTask.total}
+                onChange={(e) =>
+                  setEditTask({ ...editTask, total: parseInt(e.target.value) })
+                }
               />
             </div>
             <div className="flex flex-col w-full items-start gap-2">
@@ -125,8 +184,14 @@ export function EditDialog({
                 min={0}
                 step={1}
                 className="col-span-1"
-                defaultValue={0}
-                value={unitsCovered}
+                // defaultValue={0}
+                value={editTask.progress}
+                onChange={(e) =>
+                  setEditTask({
+                    ...editTask,
+                    progress: parseInt(e.target.value),
+                  })
+                }
               />
             </div>
             <div className="flex flex-col w-auto items-start gap-2">
@@ -141,8 +206,11 @@ export function EditDialog({
                 max={10}
                 step={1}
                 className="col-span-1"
-                defaultValue={0}
-                value={ratingValue}
+                // defaultValue={0}
+                value={editTask.rating}
+                onChange={(e) =>
+                  setEditTask({ ...editTask, rating: parseInt(e.target.value) })
+                }
               />
             </div>
           </div>
@@ -151,13 +219,43 @@ export function EditDialog({
               <Label htmlFor="status" className="md:text-right">
                 Status
               </Label>
-              <Categories defaultSelectedValue={status} />
+              {/* <Categories defaultSelectedValue={status} /> */}
+              <Select
+                // defaultValue={undefined}
+                name={"status"}
+                value={editTask.status}
+                onValueChange={(value) =>
+                  setEditTask({ ...editTask, status: value })
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select your present status" />
+                </SelectTrigger>
+                <SelectContent id={"status"}>
+                  <SelectGroup>
+                    <SelectLabel>Your status: </SelectLabel>
+                    <SelectItem value="current">Currently doing</SelectItem>
+                    <SelectItem value="planning">Plan to do</SelectItem>
+                    <SelectItem value="completed">Completed already</SelectItem>
+                    <SelectItem value="on-hold">On hold</SelectItem>
+                    <SelectItem value="dropped">Dropped</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex gap-4 justify-center items-center w-full ">
               <Label htmlFor="is-favourite" className="md:text-right">
                 Mark as Favourite
               </Label>
-              <Checkbox id="is-favourite" checked={isMarkedFavourite} />
+              <Checkbox
+                id="is-favourite"
+                checked={editTask.isFavourite}
+                onCheckedChange={(e) =>
+                  setEditTask((prev) => {
+                    return { ...editTask, isFavourite: !prev.isFavourite };
+                  })
+                }
+              />
             </div>
           </div>
           <div className="flex flex-row items-center gap-2">
@@ -175,8 +273,11 @@ export function EditDialog({
               max={10}
               step={1}
               className="col-span-1"
-              defaultValue={0}
-              value={0}
+              // defaultValue={0}
+              value={editTask.revisited}
+              onChange={e => setEditTask(
+                {...editTask, revisited: parseInt(e.target.value)}
+              )}
             />
           </div>
         </div>
@@ -196,6 +297,9 @@ export function EditDialog({
               className="w-min md:w-max"
               type="submit"
               title="Save above changes"
+              onClick={() => {
+                handleEditTask(id);
+              }}
             >
               Save Changes
             </Button>
@@ -214,7 +318,9 @@ export function EditDialog({
             </AlertDialogTrigger>
             <AlertDialogContent className="invert">
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure to delete this task?</AlertDialogTitle>
+                <AlertDialogTitle>
+                  Are you absolutely sure to delete this task?
+                </AlertDialogTitle>
                 <AlertDialogDescription>
                   This action will permanently delete task named{" "}
                   <span className="font-bold ">{name}</span> and can&apos;t be
@@ -223,7 +329,7 @@ export function EditDialog({
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Delete Task</AlertDialogAction>
+                <AlertDialogAction onClick={() => {handleDeleteTask(id) }}>Delete Task</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

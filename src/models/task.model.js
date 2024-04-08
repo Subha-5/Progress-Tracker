@@ -25,7 +25,7 @@ const taskSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["current", "planning", "completed", "on-hold", "dropped"],
-      default: "current",
+      default: "current"
     },
     isFavourite: {
       type: Boolean,

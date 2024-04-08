@@ -5,10 +5,12 @@ import Item from "@/components/Item";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import tasks from "@/data/tasks.json";
+import { TaskType } from "@/types/task";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [tasks, setTasks] = useState<TaskType[]>([]);
   const [emailState, setEmailState] = useState("")
   const [usernameState, setUsernameState] = useState("")
 
@@ -17,9 +19,15 @@ export default function Home() {
   }, [tasks, emailState, usernameState])
   
   const fetchDetails  = async () => {
-    const {data} = await tasks;    
-    setEmailState(data.email)
-    setUsernameState(data.username)
+    try {
+      const response = await axios.get("/api/task"); 
+      const userTasks = response.data.data
+      setEmailState(userTasks.email)
+      setUsernameState(userTasks.username)
+      setTasks(userTasks.tasks)
+    } catch (error) {
+      console.log("Failed to fetch tasks !!!");   
+    }
   }
   return (
     <div className="bg-black flex min-h-screen flex-col items-center">
@@ -41,16 +49,16 @@ export default function Home() {
         <Separator />
         <TabsContent value="all">
           <div className="w-full px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 md:py-4">
-            {tasks.data.tasks.map((task) => (
+            {tasks.map((task) => (
               <Item
-                key={task.id}
-                id={task.id}
+                key={task._id}
+                id={task._id}
                 title={task.name}
                 category={task.type}
                 desc={task.description}
                 footer={task.status}
                 progress={task.progress}
-                total={task.total}
+                total={task.totalParts}
                 isFavourite={task.isFavourite!}
                 rating={task.rating}
                 status={task.status}
@@ -60,18 +68,18 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="current">
           <div className="w-full px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 md:py-4">
-            {tasks.data.tasks
+            {tasks
               .filter((task) => task.status == "current")
               .map((task) => (
                 <Item
-                  key={task.id}
-                  id={task.id}
+                  key={task._id}
+                  id={task._id}
                   title={task.name}
                   category={task.type}
                   desc={task.description}
                   footer={task.status}
                   progress={task.progress}
-                  total={task.total}
+                  total={task.totalParts}
                   isFavourite={task.isFavourite!}
                   rating={task.rating}
                   status={task.status}
@@ -81,18 +89,18 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="completed">
           <div className="w-full px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 md:py-4">
-            {tasks.data.tasks
+            {tasks
               .filter((task) => task.status == "completed")
               .map((task) => (
                 <Item
-                  key={task.id}
-                  id={task.id}
+                  key={task._id}
+                  id={task._id}
                   title={task.name}
                   category={task.type}
                   desc={task.description}
                   footer={task.status}
                   progress={task.progress}
-                  total={task.total}
+                  total={task.totalParts}
                   isFavourite={task.isFavourite!}
                   rating={task.rating}
                   status={task.status}
@@ -102,18 +110,18 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="on-hold">
           <div className="w-full px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 md:py-4">
-            {tasks.data.tasks
+            {tasks
               .filter((task) => task.status == "on-hold")
               .map((task) => (
                 <Item
-                  key={task.id}
-                  id={task.id}
+                  key={task._id}
+                  id={task._id}
                   title={task.name}
                   category={task.type}
                   desc={task.description}
                   footer={task.status}
                   progress={task.progress}
-                  total={task.total}
+                  total={task.totalParts}
                   isFavourite={task.isFavourite!}
                   rating={task.rating}
                   status={task.status}
@@ -123,18 +131,18 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="dropped">
           <div className="w-full px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 md:py-4">
-            {tasks.data.tasks
+            {tasks
               .filter((task) => task.status == "dropped")
               .map((task) => (
                 <Item
-                  key={task.id}
-                  id={task.id}
+                  key={task._id}
+                  id={task._id}
                   title={task.name}
                   category={task.type}
                   desc={task.description}
                   footer={task.status}
                   progress={task.progress}
-                  total={task.total}
+                  total={task.totalParts}
                   isFavourite={task.isFavourite!}
                   rating={task.rating}
                   status={task.status}
@@ -144,18 +152,18 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="planning">
           <div className="w-full px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 md:py-4">
-            {tasks.data.tasks
+            {tasks
               .filter((task) => task.status == "planning")
               .map((task) => (
                 <Item
-                  key={task.id}
-                  id={task.id}
+                  key={task._id}
+                  id={task._id}
                   title={task.name}
                   category={task.type}
                   desc={task.description}
                   footer={task.status}
                   progress={task.progress}
-                  total={task.total}
+                  total={task.totalParts}
                   isFavourite={task.isFavourite!}
                   rating={task.rating}
                   status={task.status}
@@ -165,18 +173,18 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="favourites">
           <div className="w-full px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-2 md:py-4">
-            {tasks.data.tasks
+            {tasks
               .filter((task) => task.isFavourite)
               .map((task) => (
                 <Item
-                  key={task.id}
-                  id={task.id}
+                  key={task._id}
+                  id={task._id}
                   title={task.name}
                   category={task.type}
                   desc={task.description}
                   footer={task.status}
                   progress={task.progress}
-                  total={task.total}
+                  total={task.totalParts}
                   isFavourite={task.isFavourite!}
                   rating={task.rating}
                   status={task.status}

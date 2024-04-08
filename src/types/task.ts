@@ -5,10 +5,11 @@ export type UserDetailsProps = {
 
 
 export type TaskType = {
-  id: number;
+  _id: string;
   name: string;
+  type: string;
   description: string;
-  total: number;
+  totalParts: number;
   progress: number;
   rating: number;
   status: string;
