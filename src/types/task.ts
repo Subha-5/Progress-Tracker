@@ -1,3 +1,9 @@
+export type UserDetailsProps = {
+  username: string;
+  email: string;
+};
+
+
 export type TaskType = {
   id: number;
   name: string;
@@ -9,3 +15,4 @@ export type TaskType = {
   isFavourite: boolean;
   revisited: number;
 };
+

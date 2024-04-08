@@ -1,8 +1,8 @@
 {
   "data": {
-    "username": "",
-    "email": "",
-    "password": "",
+    "username": "Apache Socratus",
+    "email": "socratus@apache.ai",
+    "password": "jlkjepeejflkd;jkldnv;nk",
     "isVerified": false,
     "isAdmin": false,
     "tasks": [
