@@ -1,72 +1,60 @@
-"use client"
-import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+  CardDescription,
+  CardHeader,
+  CardContent,
+  Card,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-function SignUp() {
+export default function Component() {
   return (
-    <main className="bg-primary h-screen flex justify-center items-center p-4">
-      <Card className="bg-primary w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-secondary text-2xl">Create Account</CardTitle>
-          <CardDescription>
-            {/* Enter your email below to login to your account. */}
+    <div className="bg-black h-screen flex justify-center items-center">
+      <Card className="mx-auto max-w-sm invert">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
+          <CardDescription className="">
+            Enter a username, email and password to create an account
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email" className="text-secondary">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="john.doe@example.com"
-              required
-              className="bg-primary text-secondary"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="username" className="text-secondary">
-              Email
-            </Label>
-            <Input
-              id="username"
-              type="text"
-              placeholder="john.doe@example.com"
-              required
-              className="bg-primary text-secondary"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password" className="text-secondary">
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              required
-              className="bg-primary text-secondary"
-            />
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                placeholder="Select a username"
+                required
+                type="text"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                placeholder="m@example.com"
+                required
+                type="email"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" required type="password" placeholder="Enter a password"/>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Confirm Password</Label>
+              <Input id="confirm-password" required type="password" placeholder="Confirm your password"/>
+            </div>
+            <Button className="w-full my-4" type="submit">
+              Sign Up
+            </Button>
+            Already have an account? <Link href={"/login"} className="font-bold">Login</Link>
           </div>
         </CardContent>
-        <CardFooter>
-          <Button className="bg-gray-800 border-2 border-white w-full">
-            Sign in
-          </Button>
-        </CardFooter>
       </Card>
-    </main>
-  )
+    </div>
+  );
 }
-
-
-export default SignUp

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Categories } from "@/components/Categories";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 
 import {
   Sheet,
@@ -18,10 +18,10 @@ import {
 import { Checkbox } from "./ui/checkbox";
 
 export function AddSheet() {
-  const { toast } = useToast()
+  const { toast } = useToast();
   return (
     <Sheet>
-      <SheetTrigger asChild className="w-min px-6 py-2">
+      <SheetTrigger asChild className="w-min md:px-6 md:py-2">
         <Button
           variant={"outline"}
           className="bg-white text-black"
@@ -32,7 +32,7 @@ export function AddSheet() {
       </SheetTrigger>
       <SheetContent
         side={"top"}
-        className="invert h-full md:h-min  overflow-x-auto overflow-y-auto max-h-screen"
+        className="invert h-full md:h-min  overflow-x-auto overflow-y-auto max-h-screen pb-96 md:pb-4"
       >
         <SheetHeader>
           <SheetTitle className="text-center">Add a Task</SheetTitle>

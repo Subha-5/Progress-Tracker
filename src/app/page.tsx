@@ -1,26 +1,34 @@
 "use client";
 
-import React from "react";
-import { AddSheet as AddTask } from "@/components/AddSheet";
+import Header from "@/components/Header";
 import Item from "@/components/Item";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import tasks from "@/data/tasks.json";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [emailState, setEmailState] = useState("")
+  const [usernameState, setUsernameState] = useState("")
+
+  useEffect( () => {
+    fetchDetails();
+  }, [tasks, emailState, usernameState])
+  
+  const fetchDetails  = async () => {
+    const {data} = await tasks;    
+    setEmailState(data.email)
+    setUsernameState(data.username)
+  }
   return (
-    <main className="bg-black flex min-h-screen flex-col items-center">
-      <div className="w-full flex  md:flex-row items-center justify-between p-4 md:p-8 md:pt-8">
-        <h3 className="text-white font-bold text-2xl lg:text-4xl md:p-4">
-          Monitor your Goals
-        </h3>
-        <AddTask />
-      </div>
+    <div className="bg-black flex min-h-screen flex-col items-center">
+      <Header username={usernameState} email={emailState}/>
+      
       <Tabs defaultValue="all" className="w-full">
         <TabsList
           style={{ scrollbarWidth: "none" }}
-          className="px-8 w-full flex flex-nowrap justify-start md:justify-around bg-black text-white overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth"
+          className="px-8 w-full flex flex-nowrap justify-start md:justify-around bg-black text-white overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth sticky top-0 z-10"
         >
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="current">Current</TabsTrigger>
@@ -177,6 +185,6 @@ export default function Home() {
           </div>
         </TabsContent>
       </Tabs>
-    </main>
+    </div>
   );
 }

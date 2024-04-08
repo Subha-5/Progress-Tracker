@@ -1,64 +1,45 @@
-import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
   CardTitle,
+  CardDescription,
+  CardHeader,
+  CardContent,
+  Card,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export const description =
-  "A simple login form with email and password. The submit button says 'Sign in'.";
-
-export const iframeHeight = "600px";
-
-export const containerClassName =
-  "w-full h-screen flex items-center justify-center px-4";
-
-export default function LoginForm() {
+export default function Component() {
   return (
-    <main className="bg-primary h-screen flex justify-center items-center p-4">
-      <Card className="bg-primary w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-secondary text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account.
+    <div className="bg-black h-screen flex justify-center items-center">
+      <Card className="mx-auto max-w-sm invert">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
+          <CardDescription className="text-center">
+            {"Enter your email and password to login to your account"}
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email" className="text-secondary">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="john.doe@example.com"
-              required
-              className="bg-primary text-secondary"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password" className="text-secondary">
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              required
-              className="bg-primary text-secondary"
-            />
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                placeholder="m@example.com"
+                required
+                type="email"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" required type="password" />
+            </div>
+            <Button className="w-full" type="submit">
+              Login
+            </Button>
           </div>
         </CardContent>
-        <CardFooter>
-          <Button className="bg-gray-800 border-2 border-white w-full">
-            Sign in
-          </Button>
-        </CardFooter>
       </Card>
-    </main>
+    </div>
   );
 }

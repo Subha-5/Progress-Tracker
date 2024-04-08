@@ -58,7 +58,7 @@ export function EditDialog({
           &#9998;
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full rounded-lg invert overflow-x-auto overflow-y-auto max-h-screen my-4 md:my-0 py-12 md:py-4">
+      <DialogContent className="w-full rounded-lg invert overflow-x-auto overflow-y-auto max-h-screen my-4 md:my-0 py-12 md:py-4 pb-96 md:pb-4">
         <DialogHeader>
           <DialogTitle className="text-center">Edit Task</DialogTitle>
           <DialogDescription className="text-center">
@@ -98,7 +98,7 @@ export function EditDialog({
               value={description}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 ">
             <div className="flex flex-col w-full items-start gap-2">
               <Label htmlFor="total-units" className="md:text-right">
                 Total Units
@@ -180,7 +180,7 @@ export function EditDialog({
             />
           </div>
         </div>
-        <DialogFooter className="flex flex-row gap-4 md:gap-4 !justify-center">
+        <DialogFooter className="flex flex-row gap-4 md:gap-4 !justify-center pb-8">
           <DialogClose asChild>
             <Button
               type="button"
