@@ -38,7 +38,7 @@ export default function Component() {
   };
 
   useEffect(() => {
-    if (user.email.length > 0 && user.password.length > 6) {
+    if (user.email.length > 0) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
